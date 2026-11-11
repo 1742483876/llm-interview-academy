@@ -113,3 +113,8 @@ h1{font-size:24px;margin:8px 0 6px}h2{font-size:18px;margin:28px 0 10px}h3{font-
 .f-h{fill:var(--text);font-size:14px;font-weight:600}
 .f-ln{stroke:var(--sub);fill:none}
 .f-ax{stroke:var(--line);fill:none}
+
+.up{color:var(--red)}.dn{color:var(--green)}
+.tbl.mini td,.tbl.mini th{padding:4px 8px;white-space:nowrap}
+.xlink{border-left:4px solid var(--purple)}
+.nav a.xnav{background:var(--purple-soft);color:var(--purple);font-weight:600}

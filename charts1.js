@@ -116,6 +116,8 @@
   function bind(el, f) { Array.prototype.forEach.call(el.querySelectorAll("input,select"), function (i) { i.addEventListener("input", f); i.addEventListener("change", f); }); }
   function decT(a, b, f) { var r = []; for (var e = a; e <= b; e++) r.push([Math.pow(10, e), f(e)]); return r; }
 
+  window.CH.ctl = ctl; window.CH.getv = getv; window.CH.setO = setO; window.CH.shell = shell; window.CH.bind = bind; window.CH.decT = decT;
+
   // 1. Chinchilla IsoFLOP 计算器
   W.scaling = function (el) {
     var E = 1.82, A = 482.01, B = 2085.43, al = 0.3478, be = 0.3658;
