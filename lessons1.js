@@ -126,6 +126,7 @@ LESSONS.push(
     papers: [
       ["Scaling Laws for Neural Language Models（Kaplan）", "2020", "损失与 N、D、C 呈幂律；算力增长应更多给参数。"],
       ["Training Compute-Optimal LLMs（Chinchilla）", "2022", "N 与 D 应等比扩，约 20 tokens/参数；70B+1.4T 胜过 280B Gopher。"],
+      ["Chinchilla Scaling: A replication attempt（Besiroglu et al., Epoch AI）", "2024", "重新拟合 Chinchilla 的 Approach 3，原参数估计有误；修正后与约 20 tokens/参数的结论一致。"],
       ["Beyond Chinchilla-Optimal（Sardana et al.）", "2023", "把推理成本计入后，最优解是更小模型 + 更多数据。"],
       ["Scaling Data-Constrained LMs（Muennighoff）", "2023", "数据重复下的 scaling law：约 4 个 epoch 内几乎等价新数据。"],
       ["Llama 3 Herd of Models", "2024", "用下游任务 scaling law 预测旗舰模型能力；8B/70B 远超算力最优 token 数。"],

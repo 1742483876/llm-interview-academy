@@ -28,9 +28,18 @@
     return Array.from(m.values());
   })();
 
-  function figHtml(key, note) {
+  function figHtml(key, note, title) {
     if (!key || !FIGS[key]) return "";
-    return `<div class="card figcard">${FIGS[key]}${note ? `<div class="note">${note}</div>` : ""}</div>`;
+    return `<div class="card figcard">${title ? `<div class="ftitle">${title}</div>` : ""}${FIGS[key]}${note ? `<div class="note">${note}</div>` : ""}</div>`;
+  }
+  function extraHtml(id) {
+    const ex = (window.EXTRA || {})[id] || [];
+    return ex.map((e) => e.w ? (window.WIDGETS && window.WIDGETS[e.k] ? `<div class="card figcard widget" data-w="${e.k}"><div class="ftitle">${e.t}<span class="wtag">可交互</span></div>${e.n ? `<div class="note" style="margin:0 2px 8px">${e.n}</div>` : ""}</div>` : "") : figHtml(e.k, e.n, e.t)).join("");
+  }
+  function initWidgets(root) {
+    Array.prototype.forEach.call(root.querySelectorAll("[data-w]"), (el) => {
+      try { window.WIDGETS[el.getAttribute("data-w")](el); } catch (err) { el.insertAdjacentHTML("beforeend", `<div class="muted">图表加载失败：${esc(err.message)}</div>`); }
+    });
   }
 
   // ---------- 首页 ----------
@@ -64,6 +73,8 @@
         <div><span>测验 / 术语</span><b>${window.QUIZ.length} / ${window.GLOSSARY.length}</b><em>题 / 条</em></div>
       </div>
       <h2>一张图看懂训练全流程</h2>${figHtml("pipeline")}
+      <h2>预训练数据规模演进</h2>${figHtml("tokBar", "Chinchilla 最优约 20 tokens/参数；如今 8B 级模型就要训 15T+ tokens——数据成了瓶颈，过滤、去重、合成、配比也就成了核心竞争力。", "主流模型预训练 token 数")}
+      <h2>交互图表精选</h2><div class="grid3">${[["scaling", "Chinchilla 算力计算器"], ["dedup", "MinHash S 曲线"], ["longctx", "RoPE 波长与 YaRN"], ["dpo", "DPO 损失曲线"], ["grpo", "GRPO 组内优势"], ["attention-eff", "KV Cache 计算器"]].map(([id, t]) => `<a class="card cat" href="#/lesson/${id}"><div class="ct">${t}<span class="badge">拖一拖</span></div><div class="muted">${short(byId[id].title)}</div></a>`).join("")}</div>
       <h2>7 天冲刺路线</h2><div class="card">${path}</div>
       <h2>按阶段学</h2><div class="grid3">${cats}
         <a class="card cat" href="#/papers"><div class="ct">论文库<span class="badge">${PAPERS.length} 篇</span></div><div class="muted">每篇一句话核心观点，按阶段筛选、可搜索</div></a>
@@ -113,13 +124,14 @@
       <div class="one">${x.one}</div>
       ${figHtml(x.fig)}${table}
       <div class="sec"><h3>核心知识点</h3><div>${x.points}</div></div>
-      ${figHtml(x.fig2)}
+      ${figHtml(x.fig2)}${extraHtml(id)}
       ${papers}
       <div class="sec sys"><h3>面试这样答</h3><div>${x.answer}</div></div>
       <div class="sec warn"><h3>易错点 & 面试官追问</h3><div>${x.pitfall}</div></div>
       ${rel.length ? `<h2>本课相关面试题（${rel.length}）</h2><div id="rel">${rel.map((q) => qCard(q, null, false)).join("")}</div>` : ""}
       <div style="margin-top:16px"><button id="mark" class="btn ${done.has(id) ? "got" : ""}">${done.has(id) ? "✓ 已学完（点击取消）" : "标记本课已学完"}</button></div>
       <div class="pager">${prev ? `<a href="#/lesson/${prev.id}">← ${short(prev.title)}</a>` : "<span></span>"}${next ? `<a href="#/lesson/${next.id}">${short(next.title)} →</a>` : ""}</div>`;
+    initWidgets(app);
     if ($("#rel")) bindQ($("#rel"));
     $("#mark").onclick = () => {
       const s = store.get(DONE); if (s.has(id)) s.delete(id); else s.add(id); store.set(DONE, s);
