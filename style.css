@@ -118,3 +118,4 @@ h1{font-size:24px;margin:8px 0 6px}h2{font-size:18px;margin:28px 0 10px}h3{font-
 .tbl.mini td,.tbl.mini th{padding:4px 8px;white-space:nowrap}
 .xlink{border-left:4px solid var(--purple)}
 .nav a.xnav{background:var(--purple-soft);color:var(--purple);font-weight:600}
+.tag.jd{background:rgba(229,72,77,.12);color:#c23a3f}

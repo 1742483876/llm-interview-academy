@@ -71,7 +71,8 @@
             <li>重点准备：<a href="#/lesson/modelfilter">质量过滤</a>、<a href="#/lesson/dedup">去重</a>、<a href="#/lesson/mixture">配比</a>、<a href="#/lesson/midtrain">Mid-training</a>、<a href="#/lesson/ablation">数据消融</a>。</li>
             <li>后训练至少能手推 <a href="#/lesson/dpo">DPO</a>、写出 <a href="#/lesson/grpo">GRPO</a>。</li>
             <li>准备 3 个项目故事，见 <a href="#/lesson/story">怎么讲你的数据项目</a>。</li></ul></div>
-      </div>`;
+      </div>
+      ${window.MOCK ? `<a class="card cat xlink" href="#/cat/jd" style="margin-top:12px"><div class="ct">🆕 JD 专项：8 家预训练数据岗拆解 + 模拟面试 + 简历指南<span class="badge">进入 →</span></div><div class="muted">${Object.keys(window.MOCK).map((k) => window.MOCK[k].name.split(" · ")[0]).join(" · ")}｜数据选择 · 文档解析 · PB 级管线 · 课程与蒸馏 · 标签体系 · 合成数据质检</div></a>` : ""}`;
     const defMid = () => `
       <h2>一张图看懂训练全流程</h2>${figHtml("pipeline")}
       <h2>预训练数据规模演进</h2>${figHtml("tokBar", "Chinchilla 最优约 20 tokens/参数；如今 8B 级模型就要训 15T+ tokens——数据成了瓶颈，过滤、去重、合成、配比也就成了核心竞争力。", "主流模型预训练 token 数")}
@@ -172,17 +173,20 @@
   }
 
   function questionsPage(stage) {
-    let cur = stage && catById[stage] ? stage : "all", lv = "all", only = false, kw = "";
+    let cur = stage && catById[stage] ? stage : "all", lv = "all", only = false, kw = "", co = "all";
+    const MK = window.MOCK || null;
+    const coChips = MK ? `<div class="chips" id="qco"><span class="muted" style="align-self:center">按公司：</span><button class="chip on" data-c="all">全部</button>${Object.keys(MK).map((k) => `<button class="chip" data-c="${k}">${MK[k].name.split(" · ")[0]}</button>`).join("")}</div>` : "";
+    const inCo = (q) => co === "all" || (q.co && q.co.indexOf(co) >= 0) || (MK[co].ls.indexOf(q.l) >= 0);
     app.innerHTML = `<div class="crumb"><a href="#/">首页</a> / ${S.qLib}</div><h1>${S.qLib}</h1>
       <p class="muted">${S.qTip}<span id="qscore">已掌握 ${store.get(GOT).size}/${Q.length}</span></p>
-      ${chipBar("qc", stageChips, cur)}
+      ${chipBar("qc", stageChips, cur)}${coChips}
       <div class="chips" id="qf"><button class="chip on" data-l="all">全部难度</button><button class="chip" data-l="3">●●● 高频/难</button><button class="chip" data-l="2">●●○ 中</button><button class="chip" data-l="1">●○○ 基础</button>
         <button class="chip" id="only">只看未掌握</button><button class="chip" id="rand">🎲 随机抽一题</button></div>
       <input id="qq" class="search" placeholder="搜题目关键词…">
       <div id="rbox"></div><div id="ql"></div>`;
     const draw = () => {
       const got = store.get(GOT);
-      const rows = Q.filter((q) => (cur === "all" || q.s === cur) && (lv === "all" || q.lv === +lv) && (!only || !got.has(qKey(q))) && (!kw || (q.q + q.a).toLowerCase().includes(kw)));
+      const rows = Q.filter((q) => (cur === "all" || q.s === cur) && inCo(q) && (lv === "all" || q.lv === +lv) && (!only || !got.has(qKey(q))) && (!kw || (q.q + q.a).toLowerCase().includes(kw)));
       $("#ql").innerHTML = rows.length ? rows.map((q, i) => qCard(q, i + 1, false)).join("") : `<div class="empty">没有符合条件的题目 🎉</div>`;
       bindQ($("#ql"));
     };
@@ -198,7 +202,26 @@
       lv = b.dataset.l; document.querySelectorAll("#qf .chip[data-l]").forEach((c) => c.classList.toggle("on", c === b)); draw();
     };
     $("#qq").oninput = (e) => { kw = e.target.value.trim().toLowerCase(); draw(); };
+    if ($("#qco")) $("#qco").onclick = (e) => { const b = e.target.closest(".chip"); if (!b) return; co = b.dataset.c; document.querySelectorAll("#qco .chip").forEach((c) => c.classList.toggle("on", c === b)); draw(); };
     draw();
+  }
+
+  function mockPage(k) {
+    const MK = window.MOCK || {}, m = MK[k];
+    if (!m) return questionsPage("jd");
+    const own = Q.filter((q) => q.co && q.co.indexOf(k) >= 0), base = Q.filter((q) => !(q.co && q.co.indexOf(k) >= 0) && m.ls.indexOf(q.l) >= 0);
+    const others = Object.keys(MK).filter((x) => x !== k).map((x) => `<a href="#/mock/${x}">${MK[x].name.split(" · ")[0]}</a>`).join(" · ");
+    app.innerHTML = `<div class="crumb"><a href="#/">首页</a> / <a href="#/lesson/companies">JD 拆解</a> / 模拟面试</div>
+      <h1>模拟面试：${m.name}</h1><div class="muted">${m.city} · 共 ${own.length + base.length} 题（专项 ${own.length} + 相关基础 ${base.length}）</div>
+      <div class="card verdict" style="margin:12px 0"><div class="vh"><span>JD 关注点</span><span>小白提示</span></div>
+        <ul>${m.focus.map((f) => `<li>${f}</li>`).join("")}</ul><div class="one" style="margin:10px 0 0">${m.tip}</div>
+        <div class="muted" style="margin-top:6px">相关课程：${m.ls.concat(own.map((q) => q.l)).filter((v, i, a) => a.indexOf(v) === i && byId[v]).map((l) => `<a href="#/lesson/${l}">${short(byId[l].title)}</a>`).join(" · ")}</div></div>
+      <div class="chips"><button class="chip" id="mr">🎲 随机抽一题</button><span class="muted" style="align-self:center">建议：每题先口述 2 分钟，再展开对照</span></div><div id="rbox"></div>
+      <h2>专项题（${own.length}）</h2><div id="mo">${own.map((q, i) => qCard(q, i + 1, false)).join("")}</div>
+      <h2>相关基础题（${base.length}）</h2><div id="mb">${base.map((q, i) => qCard(q, i + 1, false)).join("")}</div>
+      <p class="muted" style="margin-top:16px">其他公司：${others}</p>`;
+    bindQ($("#mo")); bindQ($("#mb"));
+    $("#mr").onclick = () => { const pool = own.concat(base), q = pool[Math.floor(Math.random() * pool.length)]; $("#rbox").innerHTML = qCard(q, null, false); bindQ($("#rbox")); };
   }
 
   function glossary() {
@@ -231,12 +254,13 @@
 
   function route() {
     const h = location.hash.replace(/^#\/?/, "").split("/");
-    const navKey = h[0] === "lesson" ? "cat/" + ((byId[h[1]] || {}).cat || "") : h[0] === "questions" ? "questions" : h.join("/");
+    const navKey = h[0] === "lesson" ? "cat/" + ((byId[h[1]] || {}).cat || "") : h[0] === "questions" ? "questions" : h[0] === "mock" ? "cat/jd" : h.join("/");
     document.querySelectorAll(".nav a").forEach((a) => a.classList.toggle("on", a.getAttribute("href") === "#/" + navKey));
     if (h[0] === "lesson") lessonPage(h[1]);
     else if (h[0] === "cat") catPage(h[1]);
     else if (h[0] === "papers") papersPage();
     else if (h[0] === "questions") questionsPage(h[1]);
+    else if (h[0] === "mock") mockPage(h[1]);
     else if (h[0] === "glossary") glossary();
     else if (h[0] === "quiz") quiz();
     else home();
