@@ -1,4 +1,4 @@
-window.SITE = { sister: { href: "quant/index.html", name: "📈 小白量化学堂（新）", nav: "📈 量化学堂", desc: "收益与风险 · 回测与过拟合 · 因子投资 · 择时策略 · 组合风控，配 10 个可交互的回测 / 因子 / 配置模拟器" } };
+window.SITE = { navExtra: [{ href: "#/quarterly", name: "📚 论文季刊" }], homeExtra: function () { var Q = window.QPAPERS; if (!Q) return ""; var last = Q.quarters[Q.quarters.length - 1]; return '<a class="card cat qlink" href="#/quarterly" style="margin-top:12px"><div class="ct">📚 论文季刊：' + Q.quarters.length + ' 个季度 · ' + Q.list.length + ' 篇数据论文精读卡<span class="badge">进入 →</span></div><div class="muted">最新一季 ' + last.slice(0, 4) + ' Q' + last.slice(5) + '「' + Q.themes[last].name + '」｜每篇：一句话 · 方法 · 结果 · 对数据岗的启发 · 面试可能这样问</div></a>'; }, sister: { href: "quant/index.html", name: "📈 小白量化学堂（新）", nav: "📈 量化学堂", desc: "收益与风险 · 回测与过拟合 · 因子投资 · 择时策略 · 组合风控，配 10 个可交互的回测 / 因子 / 配置模拟器" } };
 // 大模型面试学堂 · 冲刺路线 / 高频考点 / 报告横评 / 面试题库 / 测验 / 术语
 
 window.PATH = [

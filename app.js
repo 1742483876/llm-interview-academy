@@ -72,6 +72,7 @@
             <li>后训练至少能手推 <a href="#/lesson/dpo">DPO</a>、写出 <a href="#/lesson/grpo">GRPO</a>。</li>
             <li>准备 3 个项目故事，见 <a href="#/lesson/story">怎么讲你的数据项目</a>。</li></ul></div>
       </div>
+      ${S.homeExtra ? S.homeExtra() : ""}
       ${window.MOCK ? `<a class="card cat xlink" href="#/cat/jd" style="margin-top:12px"><div class="ct">🆕 JD 专项：8 家预训练数据岗拆解 + 模拟面试 + 简历指南<span class="badge">进入 →</span></div><div class="muted">${Object.keys(window.MOCK).map((k) => window.MOCK[k].name.split(" · ")[0]).join(" · ")}｜数据选择 · 文档解析 · PB 级管线 · 课程与蒸馏 · 标签体系 · 合成数据质检</div></a>` : ""}`;
     const defMid = () => `
       <h2>一张图看懂训练全流程</h2>${figHtml("pipeline")}
@@ -261,12 +262,13 @@
     else if (h[0] === "papers") papersPage();
     else if (h[0] === "questions") questionsPage(h[1]);
     else if (h[0] === "mock") mockPage(h[1]);
+    else if (window.ROUTES && window.ROUTES[h[0]]) window.ROUTES[h[0]](app, h);
     else if (h[0] === "glossary") glossary();
     else if (h[0] === "quiz") quiz();
     else home();
     window.scrollTo(0, 0);
   }
-  $("#nav").innerHTML = `<a href="#/">首页</a>${CATS.map((c) => `<a href="#/cat/${c.id}">${c.name}</a>`).join("")}<a href="#/papers">${S.paperLib}</a><a href="#/questions">${S.qNav}</a><a href="#/quiz">测验</a><a href="#/glossary">术语</a>${S.sister ? `<a href="${S.sister.href}" class="xnav">${S.sister.nav || S.sister.name}</a>` : ""}`;
+  $("#nav").innerHTML = `<a href="#/">首页</a>${CATS.map((c) => `<a href="#/cat/${c.id}">${c.name}</a>`).join("")}<a href="#/papers">${S.paperLib}</a><a href="#/questions">${S.qNav}</a><a href="#/quiz">测验</a><a href="#/glossary">术语</a>${(S.navExtra || []).map((n) => `<a href="${n.href}" class="xnav2">${n.name}</a>`).join("")}${S.sister ? `<a href="${S.sister.href}" class="xnav">${S.sister.nav || S.sister.name}</a>` : ""}`;
   window.addEventListener("hashchange", route);
   route();
 })();
