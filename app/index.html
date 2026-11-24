@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1,user-scalable=no">
+<title>小白学习工作台</title>
+<meta name="description" content="大模型算法面试学习站 PWA：学堂 / 季刊 / 量化 / 团队知识，支持离线查阅。">
+<meta name="theme-color" content="#4f46e5">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<!-- iOS 全屏 PWA -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="小白学堂">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<div class="apptop">
+  <div class="brand"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round"><circle cx="5" cy="8" r="2"/><circle cx="5" cy="16" r="2"/><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2.4"/><circle cx="12" cy="18" r="2"/><circle cx="19" cy="8" r="2"/><circle cx="19" cy="16" r="2"/><path d="M7 8.6l3 2.2M7 15.4l3-2.2M14 7l3 1M14 11l3-1.4M14 13l3 1.4M14 17l3-1"/></svg></span><span class="tt">面试学堂</span></div>
+  <span class="sp"></span>
+  <span class="net"><span class="dot"></span>在线</span>
+  <button class="reload" title="刷新当前页">↻ 刷新</button>
+  <button class="setup" title="安装到主屏幕">⋮</button>
+</div>
+
+<div class="stage"></div>
+
+<nav class="tabbar"></nav>
+
+<div class="install">
+  <div class="ih">📲 装到主屏幕，像 APP 一样用<span class="x">×</span></div>
+  <p>添加到主屏幕后可全屏打开、离线查阅（学堂 / 季刊 / 量化已缓存，团队页在线打开一次后也能离线看）。</p>
+  <div class="row auto">
+    <button class="btn pri go">一键安装</button>
+    <button class="btn sec later">以后再说</button>
+  </div>
+  <div class="row manual" style="display:none">
+    <p style="margin:0">iPhone/iPad：点底部 <span class="kbd">分享</span> → <span class="kbd">添加到主屏幕</span>；安卓 Chrome：右上角 <span class="kbd">⋮</span> → <span class="kbd">安装应用</span>。</p>
+    <button class="btn sec later">知道了</button>
+  </div>
+</div>
+
+<div class="boot">
+  <div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round"><circle cx="5" cy="8" r="2"/><circle cx="5" cy="16" r="2"/><circle cx="12" cy="6" r="2"/><circle cx="12" cy="12" r="2.4"/><circle cx="12" cy="18" r="2"/><circle cx="19" cy="8" r="2"/><circle cx="19" cy="16" r="2"/><path d="M7 8.6l3 2.2M7 15.4l3-2.2M14 7l3 1M14 11l3-1.4M14 13l3 1.4M14 17l3-1"/></svg></div>
+  <div class="t">小白学习工作台</div>
+  <div class="s">正在准备离线缓存…</div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

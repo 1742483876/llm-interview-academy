@@ -1,0 +1,23 @@
+{
+  "name": "小白学习工作台 · 大模型算法面试",
+  "short_name": "小白学堂",
+  "description": "大模型算法面试学习站：预训练/Mid-train/后训练数据、论文季刊、量化学习笔记与团队知识沉淀，支持离线查阅。",
+  "start_url": "./app/",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f7f8fa",
+  "theme_color": "#4f46e5",
+  "lang": "zh-CN",
+  "icons": [
+    { "src": "./app/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./app/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "./app/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "面试学堂", "short_name": "学堂", "url": "./app/?m=home", "icons": [{ "src": "./app/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "论文季刊", "short_name": "季刊", "url": "./app/?m=quarterly", "icons": [{ "src": "./app/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "量化学堂", "short_name": "量化", "url": "./app/?m=quant", "icons": [{ "src": "./app/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "团队知识", "short_name": "团队", "url": "./app/?m=team", "icons": [{ "src": "./app/icons/icon-192.png", "sizes": "192x192" }] }
+  ]
+}
